@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -e
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <CONTEST_NAME>  (e.g. ABC_439)"
+  exit 1
+fi
+
+CONTEST="$1"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TEMPLATE_DIR="$SCRIPT_DIR/tpl"
+
+CPP_TEMPLATE="$TEMPLATE_DIR/main.cpp.tpl"
+MAKEFILE_TEMPLATE="$TEMPLATE_DIR/Makefile.tpl"
+
+if [ ! -f "$CPP_TEMPLATE" ] || [ ! -f "$MAKEFILE_TEMPLATE" ]; then
+  echo "Template files missing in $TEMPLATE_DIR"
+  exit 1
+fi
+
+mkdir -p "$CONTEST"
+cd "$CONTEST"
+
+mkdir -p test build
+
+for p in A B C D E F G; do
+  if [ ! -f "$p.cpp" ]; then
+    cp "$CPP_TEMPLATE" "$p.cpp"
+    echo "Created $p.cpp"
+  else
+    echo "Skipped $p.cpp"
+  fi
+
+  for ext in in out; do
+    f="test/$p.$ext"
+    if [ ! -f "$f" ]; then
+      touch "$f"
+      echo "Created $f"
+    else
+      echo "Skipped $f"
+    fi
+  done
+done
+
+if [ ! -f "Makefile" ]; then
+  cp "$MAKEFILE_TEMPLATE" Makefile
+  echo "Created Makefile"
+else
+  echo "Skipped Makefile"
+fi
+
+echo "Contest $CONTEST setup complete (template-based, no overwrites)."
+
