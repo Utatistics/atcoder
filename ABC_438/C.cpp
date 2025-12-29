@@ -3,6 +3,15 @@
 #include <vector>
 #include <stack>
 
+void debug(std::stack<std::pair<int, int>> &s) {
+    while (!s.empty()) {
+        std::pair<int, int> p = s.top();
+        std::cout << "{" << p.first << "," << p.second << "}" << " ";
+        s.pop();
+    }
+    std::cout << std::endl;
+}
+
 int main () {
     // input processing
     int N;
@@ -17,6 +26,8 @@ int main () {
 
     for (int i = 1; i < N; i++) {
         int a = A[i];
+        std::cout << "i=" << i << ", a=" << a << std::endl;
+        debug(S);
         std::pair<int, int> p = S.top(); // {value, cnt}
 
         if (a != p.first) {
