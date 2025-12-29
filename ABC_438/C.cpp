@@ -8,7 +8,7 @@ int main () {
     int N;
     std::cin >> N;
 
-    std::vector<int> A;
+    std::vector<int> A(N);
     for (int i = 0; i < N; i++) std::cin >> A[i];
     
     // solve
@@ -16,16 +16,22 @@ int main () {
     S.push({A[0], 1}); // init
 
     for (int i = 1; i < N; i++) {
-        std::pair<int, int> p = S.top(); // {value, cnt}
         int a = A[i];
+        std::pair<int, int> p = S.top(); // {value, cnt}
 
-        if (a == p.first) p.second += 1;
-        else std::pair<int, int> q = {a, 1};
-
-        if (p.second == 4) S.pop();
-        else S.push(p);
-        
-        S.push(q);
+        if (a != p.first) {
+            std::pair<int, int> q = {a, 1}; 
+            S.push(q);
+            
+        }
+        else if (a == p.first && p.second + 1 < 4) {
+            p.second += 1;
+            S.pop();
+            S.push(p);
+            std::pair<int, int> q = {a, 1};
+            S.push(q);
+        }
+        else if (a == p.first && p.second == 4) S.pop();
     }
 
     // presentation
@@ -35,7 +41,7 @@ int main () {
         ans += p.second;
         S.pop();
     }
-    std::cout << ans;
+    std::cout << ans << std::endl;
 
 }
 
