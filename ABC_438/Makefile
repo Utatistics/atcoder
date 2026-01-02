@@ -1,6 +1,7 @@
 # compiler settings
 CXX = g++
 CXXFLAGS = -std=gnu++17 -O2 -Wall -Wextra
+DBGFLAGS = -O0 -g -DDEBUG
 
 # directory settings
 BUILD_DIR = build
@@ -13,14 +14,20 @@ RED    := \033[0;31m
 NC     := \033[0m   # No Color
 
 # rules
-.PHONY: clean
+.PHONY: clean hello
 
 hello:
 	@echo "Welcome to ABC $(ID)!"
 
+# normal build (optimized)
 $(BUILD_DIR)/%: %.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
+
+# debug build (no optimization, with symbols)
+$(BUILD_DIR)/%_dbg: %.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(DBGFLAGS) $< -o $@
 
 test%: $(BUILD_DIR)/%
 	@echo "Running test $*..."
@@ -40,6 +47,10 @@ test%: $(BUILD_DIR)/%
 
 run%: $(BUILD_DIR)/%
 	@./$(BUILD_DIR)/$* < $(TEST_DIR)/$*.in
+
+# run inside gdb with test input
+gdb%: $(BUILD_DIR)/%_dbg
+	@gdb ./$(BUILD_DIR)/$*_dbg
 
 clean:
 	rm -rf $(BUILD_DIR) $(TEST_DIR)/*.tmp $(TEST_DIR)/*.diff
