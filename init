@@ -7,9 +7,11 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
+# setting path variables
 CONTEST="$1"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-TEMPLATE_DIR="$SCRIPT_DIR/tpl"
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$BASE_DIR/ABC"
+TEMPLATE_DIR="$BASE_DIR/tpl"
 
 CPP_TEMPLATE="$TEMPLATE_DIR/main.cpp.tpl"
 MAKEFILE_TEMPLATE="$TEMPLATE_DIR/Makefile.tpl"
@@ -19,11 +21,13 @@ if [ ! -f "$CPP_TEMPLATE" ] || [ ! -f "$MAKEFILE_TEMPLATE" ]; then
   exit 1
 fi
 
-mkdir -p "$CONTEST"
-cd "$CONTEST"
+# create directories
+mkdir -p "$SCRIPT_DIR/$CONTEST"
+cd "$SCRIPT_DIR/$CONTEST"
 
 mkdir -p test build
 
+# creat files
 for p in A B C D E F G; do
   if [ ! -f "$p.cpp" ]; then
     cp "$CPP_TEMPLATE" "$p.cpp"
@@ -43,9 +47,12 @@ for p in A B C D E F G; do
   done
 done
 
+# ensure tab indent
 if [ ! -f "Makefile" ]; then
   cp "$MAKEFILE_TEMPLATE" Makefile
-  echo "Created Makefile"
+  # FIX: convert 4 leading spaces to TABs for make recipes
+  sed -i 's/^    /\t/' Makefile
+  echo "Created Makefile (tabs normalized)"
 else
   echo "Skipped Makefile"
 fi
