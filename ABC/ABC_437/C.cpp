@@ -19,7 +19,7 @@ int main() {
             P += p;
             wp[i] = w + p;
         }
-
+        
         std::sort(wp.begin(), wp.end()); // O(N * logN), ascending
         
         // solve
