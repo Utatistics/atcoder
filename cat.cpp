@@ -1,7 +1,5 @@
-std::vector<std::vector<int>> adj(N);
-for (int i = 0; i < M; i++) {
-    int u, v;
-    std::cin >> u >> v;
-    adj[u].push_back(v);
-    adj[v].push_back(u);
-}
+
+
+std::sort(x.begin(), x.end(), [](int a, int b){ return a > b; }); // O(N * logN), descending, remove 3rd arg if ascending
+
+

@@ -12,7 +12,7 @@ struct edge { // to a city
     int b; // snuuke
 };
 
-ll dijkstra(int s, int t, char flg, std::vector<std::vector<edge>> &adj) {
+std::vector<ll> dijkstra(int s, char flg, std::vector<std::vector<edge>> &adj) {
     // init
     int n = adj.size();
 
@@ -31,9 +31,7 @@ ll dijkstra(int s, int t, char flg, std::vector<std::vector<edge>> &adj) {
         int u = p.second;
         pq.pop(); // remove
         
-        // skip outdated entry
-        if (dist_u > d[u]) continue;
-
+        if (dist_u > d[u]) continue; // skip outdated node
         for (int i = 0; i < (int)adj[u].size(); i++) { // given u, visit v for relaxation
             edge e = adj[u][i];
             int v = e.to;
@@ -44,12 +42,14 @@ ll dijkstra(int s, int t, char flg, std::vector<std::vector<edge>> &adj) {
             }
         }
     }
-    return d[t];
+    
+    return d;
 }
 
 int main () {
     int n, m, s, t;
     std::cin >> n >> m >> s >> t;
+    s--; t--; // origin 0 1 -> 0
 
     // input processing
     std::vector<std::vector<edge>> adj(n);
@@ -62,20 +62,16 @@ int main () {
     }
 
     // solve
-    std::vector<ll> ans;
-    for (int i = 0; i < n; i++) { // N ~ 10*5
-        int a = dijkstra(s, i, 'a', adj); // O(m * logn)
-        int b = dijkstra(i, t, 'b', adj); // O(m * logn)
-        // debug
-        std::cout << "a=" << a << ", b=" << b << std::endl;
-        ans.push_back(MAX - a - b);
-    }
+    std::vector<ll> da = dijkstra(s, 'a', adj); // O(m * logn), m ~ 10*5
+    std::vector<ll> db = dijkstra(t, 'b', adj); // O(m * logn)
+
+    std::vector<ll> ans(n);
+    for (int i = 0; i < n; i++) ans[i] = MAX - (da[i] + db[i]);
     // create suffix maximum array
-    for (int i = 0; i < n; i++) std::cout << ans[i] << " ";
-    std::cout << std::endl;
     for (int i = n - 2; i >= 0; --i) ans[i] = std::max(ans[i], ans[i+1]); // O(N)
-    for (int i = 0; i < n; i++) std::cout << ans[i] << " ";
-    std::cout << std::endl;
+    
+    // presentation
+    for (int i = 0; i < n; i++) std::cout << ans[i] << "\n";
 
     return 0;
 }

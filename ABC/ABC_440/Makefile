@@ -34,16 +34,16 @@ test%: $(BUILD_DIR)/%
 	@./$(BUILD_DIR)/$* < $(TEST_DIR)/$*.in > $(TEST_DIR)/$*.tmp
 	@diff -u $(TEST_DIR)/$*.out $(TEST_DIR)/$*.tmp > $(TEST_DIR)/$*.diff || true
 	@if [ ! -s $(TEST_DIR)/$*.diff ]; then \
-		echo -e "$(GREEN)Test $* passed! ✅$(NC)"; \
-		rm -f $(TEST_DIR)/$*.diff; \
+	    echo -e "$(GREEN)Test $* passed! ✅$(NC)"; \
+	    rm -f $(TEST_DIR)/$*.diff; \
 	else \
-		echo -e "$(RED)Test $* failed! ❌$(NC)"; \
-		if command -v colordiff >/dev/null 2>&1; then \
-			colordiff $(TEST_DIR)/$*.diff; \
-		else \
-			cat $(TEST_DIR)/$*.diff; \
-		fi; \
-	fi
+	    echo -e "$(RED)Test $* failed! ❌$(NC)"; \
+	    if command -v colordiff >/dev/null 2>&1; then \
+	        colordiff $(TEST_DIR)/$*.diff; \
+	        else \
+	            cat $(TEST_DIR)/$*.diff; \
+	            fi; \
+	    fi
 
 # run program
 run%: $(BUILD_DIR)/%
