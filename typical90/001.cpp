@@ -30,7 +30,7 @@ int main () {
     }
     
     int ans = l;
-    std::cout << ans;
+    std::cout << ans << std::endl;
 
     return 0;
 }

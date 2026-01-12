@@ -1,0 +1,75 @@
+# compiler settings
+CXX = g++
+CXXFLAGS = -std=gnu++17 -O2 -Wall -Wextra
+
+# directory settings
+BUILD_DIR = build
+TEST_DIR  = test
+
+# ANSI color codes
+GREEN := \033[0;32m
+RED   := \033[0;31m
+NC    := \033[0m
+
+# rules
+.PHONY: clean hello
+
+hello:
+	@echo "Welcome to Typical90!"
+
+# -------------------------
+# normal build
+# build/001 from 001.cpp
+# -------------------------
+$(BUILD_DIR)/%: %.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+# -------------------------
+# debug build for gdb
+# build/001_dbg from 001.cpp
+# -------------------------
+$(BUILD_DIR)/%_dbg: %.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) -std=gnu++17 -O0 -g -DDEBUG $< -o $@
+
+# -------------------------
+# run tests
+# make test001
+# -------------------------
+test%: $(BUILD_DIR)/%
+	@echo "Running test $*..."
+	@./$(BUILD_DIR)/$* < $(TEST_DIR)/$*.in > $(TEST_DIR)/$*.tmp
+	@diff -u $(TEST_DIR)/$*.out $(TEST_DIR)/$*.tmp > $(TEST_DIR)/$*.diff || true
+	@if [ ! -s $(TEST_DIR)/$*.diff ]; then \
+		echo -e "$(GREEN)Test $* passed! ✅$(NC)"; \
+		rm -f $(TEST_DIR)/$*.diff; \
+	else \
+		echo -e "$(RED)Test $* failed! ❌$(NC)"; \
+		if command -v colordiff >/dev/null 2>&1; then \
+			colordiff $(TEST_DIR)/$*.diff; \
+		else \
+			cat $(TEST_DIR)/$*.diff; \
+		fi; \
+	fi
+
+# -------------------------
+# run program
+# make run001
+# -------------------------
+run%: $(BUILD_DIR)/%
+	@./$(BUILD_DIR)/$* < $(TEST_DIR)/$*.in
+
+# -------------------------
+# gdb debug
+# make gdb001
+# -------------------------
+gdb%: $(BUILD_DIR)/%_dbg
+	@gdb ./$(BUILD_DIR)/$*_dbg
+
+# -------------------------
+# clean
+# -------------------------
+clean:
+	rm -rf $(BUILD_DIR) $(TEST_DIR)/*.tmp $(TEST_DIR)/*.diff
+
