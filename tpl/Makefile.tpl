@@ -51,7 +51,7 @@ run%: $(BUILD_DIR)/%
 
 # gdb debug
 gdb%: $(BUILD_DIR)/%_dbg
-    @gdb ./$(BUILD_DIR)/$*_dbg
+    @gdb -tui ./$(BUILD_DIR)/$*_dbg
 
 clean:
     rm -rf $(BUILD_DIR) $(TEST_DIR)/*.tmp $(TEST_DIR)/*.diff

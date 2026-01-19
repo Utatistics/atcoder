@@ -65,7 +65,7 @@ run%: $(BUILD_DIR)/%
 # make gdb001
 # -------------------------
 gdb%: $(BUILD_DIR)/%_dbg
-	@gdb ./$(BUILD_DIR)/$*_dbg
+	@gdb -tui ./$(BUILD_DIR)/$*_dbg
 
 # -------------------------
 # clean
