@@ -15,19 +15,24 @@ ll expBySquare(ll k, ll n, int mod){
 
 int main() {
     // input processing
-    int N, K;
+    ll N, K;
     std::cin >> N >> K;
 
     // solve
-    ll ans = 1;
-    ll K2 = expBySquare(K - 2, N - 2, MOD);
-    
-    ans = (ans * K) % MOD;
-    ans = (ans * (K - 1)) % MOD; 
-    ans = (ans * (K2)) % MOD;
+    ll ans;
+    if (N == 1) ans = K;   // ← fixed
+    else {
+        ans = 1LL;
+        ll K2 = expBySquare(K - 2, N - 2, MOD);
 
+        ans = (ans * K) % MOD;
+        ans = (ans * (K - 1)) % MOD;
+        ans = (ans * (K2)) % MOD;
+    }
+
+    // presentation
     std::cout << ans << std::endl;
-    
+
     return 0;
 }
 
