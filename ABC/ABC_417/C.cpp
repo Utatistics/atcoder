@@ -10,20 +10,16 @@ int main() {
     for (int i = 0; i < N; i++) std::cin >> A[i];
 
     // solve
-    int r = 0;
-    ll s = 0;
-    for (int l = 0; l < N; l++) {
-        while (r < N && /* condition */) {
-            // e.g. s += A[r];
-            r++;
-        }
+    std::unordered_map<ll, int> m;
+    ll ans = 0;
 
-        // ans update here
-
-        if (r == l) ++r;
-        // e.g. else s -= A[l];
+    for (int j = 0; j < N; j++) {
+        ans += m[j - A[j]]; // fixed sign and order
+        m[j + A[j]]++;  // insert after counting (enforces i < j)
     }
 
+    // presentation
+    std::cout << ans << std::endl;
     return 0;
 }
 
