@@ -4,7 +4,7 @@
 int main() {
     int H, W;
     std::cin >> H >> W;
-    
+
     std::vector<std::string> grid(H);
     for (int i = 0; i < H; i++) std::cin >> grid[i];
 
@@ -19,7 +19,7 @@ int main() {
             if ( c == '#') b.push_back(id);
             else if ( c == '.' ) w.push_back(id);
             for (int d = 0; d < 4; d++) {
-                int ni = i + di[d]; 
+                int ni = i + di[d];
                 int nj = j + dj[d];
                 if (ni >= 0 && ni < H && nj >= 0 && nj < W) {
                     int nid = ni * W + nj;
@@ -32,10 +32,9 @@ int main() {
     // Ulam–Warburton automaton
     for (auto id: w) {
         std::vector<int> neighbors = adj[id];
-        
-        
-    } 
+
+
+    }
 
     return 0;
 }
-
