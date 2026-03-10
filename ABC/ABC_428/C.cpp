@@ -6,7 +6,7 @@ int main () {
     std::cin >> Q;
     std::stack<int> s; s.push(0);
     const int INF = 1000000000;
-    
+
     for (int q = 0; q < Q; q++) {
         int t; // query type
         std::cin >> t;
