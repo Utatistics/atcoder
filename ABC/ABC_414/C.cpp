@@ -2,11 +2,11 @@
 
 using ll = long long;
 
-std::string toBase(ll n, int b) {
+std::string toBase(int b, ll n) { // valid for b <= 10
    if (n == 0) return "0";
-   string x;
+   std::string x;
    while (n > 0) {
-       x += char('0' + (n % b));
+       x += static_cast<char>('0' + (n % b)); // 
        n /= b;
    }
    std::reverse(x.begin(), x.end());
@@ -14,28 +14,36 @@ std::string toBase(ll n, int b) {
 }
 
 bool isPal(std::string s) { // check if palindrome
-    return status;
+    int n =  s.size();
+    bool res = true;
+
+    for (int i = 0; i < n / 2; i++) {
+        if (s[i] != s[n - 1 - i]) {
+            res = false;
+            break;
+        }
+    }
+
+    return res;
 }
 
 int main() {
     // input
-    int A, N;
+    int A;
+    ll N;
     std::cin >> A >> N;
 
     // solve
     ll ans = 0;
-    std::string s = std::to_string(N);
-    int d = s.size();
+    for (int i = 1; i < 1e6; i++) {
+        std::string l = std::to_string(i);
+        std::string r(l.rbegin(), l.rend());
 
-    ll = n;
-    while (n < N) {
-        // construct base 10 palindrome
-    
-        // convert to base A
-        std::string nb = toBase(n, A);
-        
-        // check
-        if (isPal(nb)) ans++;
+        ll a = std::stol(l + r);
+        ll b = std::stol(l + r.substr(1));
+         
+        if (a <= N && isPal(toBase(A, a))) ans += a;
+        if (b <= N && isPal(toBase(A, b))) ans += b;
     }
 
     // presentation
