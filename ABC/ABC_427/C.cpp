@@ -3,8 +3,7 @@
 #include <vector>
 #include <utility>
 
-int main () {clear
-    
+int main () {
     int N, M;
     std::cin >> N >> M;
 
@@ -34,3 +33,4 @@ int main () {clear
 
     return 0;
 }
+
