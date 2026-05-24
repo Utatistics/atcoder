@@ -5,7 +5,7 @@ int main() {
     std::cin >> N >> Q;
 
     std::vector<int> A(N, 0);
-    std::map<int, int> m; // {block : masu}
+    std::map<int, int> m; // {num of blocks : cum num of masu}
 
     int z = N; // numnber of zeros
     int d = 0; // number of decrements
