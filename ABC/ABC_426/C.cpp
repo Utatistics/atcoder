@@ -1,5 +1,4 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 
 int upgrade(std::vector<int> &v, int X, int Y) {  // return type changed to int
     int n = v.size();
