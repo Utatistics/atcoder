@@ -24,7 +24,7 @@ int main() {
     ll ans = 0;
     for (auto [a, d] : v) { // {a, diff}}
         if (x < a) continue;
-        ll k = (x - a) / d + 1;
+        ll k = (x - a) / d + 1; // x - (k - 1)d >= a -> k <= (x - a)/d + 1
         ans += k;
         x -= k * d;
     }
