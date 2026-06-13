@@ -4,20 +4,14 @@ int main() {
     int H, W, N;
     std::cin >> H >> W >> N;
 
-    std::vector<std::vector<int>> G(H, std::vector<int>(W, 0));
+    std::vector<std::set<int>> s(H + W); // unordered_set will get TLE...
     for (int i = 0; i < N; i++) {
         int r, c;
         std::cin >> r >> c;
         r--; c--;
-        G[r][c]++;
-    }
-
-    std::vector<std::vector<int>> imos(H + 1, std::vector<int>(W + 1, 0));
-    for (int i = 0; i < H; i++) {
-        for (int i = 0; i < W; i++) {
-            
-        }
-    }
+        s[r].insert(c + H);
+        s[c + H].insert(r);
+    } // O(N logN)
 
     int Q;
     std::cin >> Q;
@@ -29,13 +23,16 @@ int main() {
         std::cin >> x;
         x--;
         
-        if (t == 1) {
-
+        if (t == 1) { // delete row
+            std::cout << s[x].size() << "\n";
+            for (int i : s[x]) s[i].erase(x); // O(N * logN)
+            s[x].clear();
         }
-        else {
-
+        else { // delete column
+            std::cout << s[x + H].size() << "\n";
+            for (int i : s[x + H]) s[i].erase(x + H); // O(N * logN)
+            s[x + H].clear();
         }
     }
     return 0;
 }
-
