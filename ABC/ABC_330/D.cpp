@@ -1,26 +1,31 @@
 #include <bits/stdc++.h>
 
+using ll = long long;
+
 int main() {
     int N;
     std::cin >> N;
 
     std::vector<std::string> G(N);
     for (int i = 0; i < N; i++) std::cin >> G[i];
+    
+    std::vector<int> cnti(N, 0), cntj(N, 0);
+    for (int i = 0; i < N; i++) {
+       for (int j = 0; j < N; j++) {
+           if (G[i][j] == 'o') {
+               cnti[i]++;
+               cntj[j]++;
+           }
+       }
+    }
 
-    int ans = 0;
-    for (int i = 0; i < N - 1; i++) {
-       for (int j = 0; j < N - 1; j++) {
-           int cnt = 0;
-
-           if (G[i][j] == 'o') ++cnt;
-           if (G[i][j + 1] == 'o') ++cnt;
-           if (G[i + 1][j] == 'o') ++cnt;
-           if (G[i + 1][j + 1] == 'o') ++cnt;
-
-           if (cnt == 4) ans += 4;
-           else if (cnt == 3) ++ans;
-           else continue;
-       } 
+    ll ans = 0;
+    for (int i = 0; i < N; i++) {
+       for (int j = 0; j < N; j++) {
+           if (G[i][j] != 'o') continue;
+           if (cnti[i] < 2 || cntj[j] < 2) continue;
+           ans += (cnti[i] - 1) * (cntj[j] - 1);
+       }
     }
 
     std::cout << ans << std::endl;
