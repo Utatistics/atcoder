@@ -26,9 +26,9 @@ fi
 mkdir -p "$SCRIPT_DIR/$CONTEST"
 cd "$SCRIPT_DIR/$CONTEST"
 
-mkdir -p test build
+mkdir -p test build stress
 
-# creat files
+# create files
 for p in A B C D E F G; do
   if [ ! -f "$p.cpp" ]; then
     cp "$CPP_TEMPLATE" "$p.cpp"
@@ -41,6 +41,17 @@ for p in A B C D E F G; do
     f="test/$p.$ext"
     if [ ! -f "$f" ]; then
       touch "$f"
+      echo "Created $f"
+    else
+      echo "Skipped $f"
+    fi
+  done
+
+  # stress-test files
+  for stress_p in "$p" "$(echo "$p" | tr '[:upper:]' '[:lower:]')"; do
+    f="stress/$stress_p.cpp"
+    if [ ! -f "$f" ]; then
+      cp "$CPP_TEMPLATE" "$f"
       echo "Created $f"
     else
       echo "Skipped $f"
@@ -59,4 +70,3 @@ else
 fi
 
 echo "Contest $CONTEST setup complete (template-based, no overwrites)."
-
