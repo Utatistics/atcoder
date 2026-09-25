@@ -3,45 +3,27 @@
 using ll = long long;
 
 int main() {
-    // input
     int N;
     std::cin >> N;
 
-    std::multiset<int> s;
-    for (int i = 0; i < N; i++) {
-        int a;
+    std::vector<int> A(N);
+    ll sum = 0;
+
+    for (int& a : A) {
         std::cin >> a;
-        s.insert(a);
+        sum += a;
     }
 
-    // solve
+    ll lt = sum / N; // floor(avg)
+    ll ut = (sum + N - 1) / N; // ceil(avg)
 
-    ll ans = 0;
-    bool status = false;
-    while (!status && N > 1) {
-        int min = *s.begin();
-        int max = *s.rbegin();
-        if (max - min == 1) {
-            status = true;
-            continue;
-        }
-       
-        int a = min;
-        int b = max;
-        while (max - min > 1) {
-            max--;
-            min++;
-            ans++;
-        }
-        // O(log N)
-        s.erase(a);
-        s.erase(b);
-        s.insert(min);
-        s.insert(max);
+    ll l = 0;
+    ll u = 0;
+
+    for (auto a : A) {
+        if (a < lt) l += lt - a;
+        if (a > ut) u += a - ut;
     }
 
-    // presentation
-    std::cout << ans << std::endl;
-    return 0;
+    std::cout << std::max(l, u) << '\n';
 }
-
