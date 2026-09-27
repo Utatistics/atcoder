@@ -1,43 +1,48 @@
 #include <bits/stdc++.h>
 
-using P = std::pair<int, char>;
-
 int main() {
     int N, Q;
     std::cin >> N >> Q;
 
-    std::vector<int> X(N, 0); // the most rececnt vulnarability
-    std::vector<char> C(N, '.');
-    std::vector<P> paint; // type 2
+    std::string ans(N, 'a');
+    
+    int last = -1; // the most recent paint query (type2)
+    char c  = 'a'; // the color
+    
+    std::vector<int> time(N, -1); // the most recent tile removal
+    std::vector<bool> tile(N, false); // covered/removed
 
-    int q = 0;
+    int ts = 0; // tiome stamp
     while (Q--) {
-        int t;
-        std::cin >> t;
+        int type;
+        std::cin >> type;
 
-        if (t == 1) {
+        if (type == 1) {
             int x;
             std::cin >> x;
             --x;
 
-            if (C[x] == '.') {
-                X[x] = q; // was blocked
-                C[x] = '#';
+            if (!tile[x]) { // paint a new color when covering 
+                if (time[x] < last) ans[x] = c; // unless it was covered when painted 
+            } else {
+                time[x] = ts;
             }
-            else {
-                C[x] = '.';
-            }
-        }
 
-        else {
-            int c;
-            std::cin >> c;
-            paint.emplace_back(q, c);
+            tile[x] = !tile[x]; // flip covered/uncovered
         }
-        ++q;
+        else {
+            last = ts;
+            std::cin >> c;
+        }
+        ++ts;
+    }
+    for (int i = 0; i < N; i++){
+        if (!tile[i]) {
+            if (time[i] < last) ans[i] = c;
+        }
     }
 
-
+    std::cout << ans << std::endl;
     return 0;
 }
 
