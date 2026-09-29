@@ -21,9 +21,9 @@ int main() {
         
         q.push(sx);
         p.push_back(sx);
-        int i = 0; int j = -1;
-        lv[sx] = i;
+        lv[sx] = 0;
 
+        int i = 0; int j = -1;
         while (!q.empty()) {
             int x = q.front(); q.pop();
             int nx = adj[x];
