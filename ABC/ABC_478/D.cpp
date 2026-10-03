@@ -1,24 +1,41 @@
 #include <bits/stdc++.h>
 
-using P = std::pair<int, int>;
+using tup = std::tuple<int, int, int>;
 
 int main() {
     int N, Q;
     std::cin >> N >> Q;
 
-    std::map<int, std::vector<P>> m;
+    std::vector<tup> events;
+    std::vector<int> cnt(Q); // 1 <= X <= Q
 
-    std::vector<int> S(N, 0);
-    while(Q--) {
+    while (Q--) {
         int L, R, X;
         std::cin >> L >> R >> X;
+        --L; // [L, R) *half open
+        --X; // 0 index
 
-        if (m[X].count > 0) {
-            auto [l, r] = m[X];
-            m[X] = 
-        }
-
+        events.emplace_back(L, X, 1);
+        events.emplace_back(R, X, -1);
     }
+    std::sort(events.begin(), events.end()); // event sort
+
+    int ans = 0;
+    
+    int j = 0; // event index
+    int M = (int)events.size();
+    
+    for (int i = 0; i < N; i++) {
+        while (j < M && std::get<0>(events[j]) == i) {
+            auto [_, x, s] = events[j++];
+
+            if (cnt[x]) --ans;
+            cnt[x] += s;
+            if (cnt[x]) ++ans;
+        }
+        std::cout << ans << " ";
+    }
+    std::cout << '\n';
+    
     return 0;
 }
-
