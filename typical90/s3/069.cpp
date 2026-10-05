@@ -35,4 +35,4 @@ int main() {
 
     return 0;
 }
-
+// #a^b mod mは繰り返し二乗法

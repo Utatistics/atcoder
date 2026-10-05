@@ -1,4 +1,4 @@
-#include <iosteram>
+#include <iostream>
 
 static const int L = 9999;
 
@@ -25,3 +25,4 @@ int main () {
     std::cout << ans;
     return 0;
 }
+// #工夫した全探索

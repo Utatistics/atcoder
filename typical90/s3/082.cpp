@@ -23,3 +23,4 @@ int main() {
     std::cout << ans << std::endl;
     return 0;
 }
+// #部分問題に分解する/数列の和の公式

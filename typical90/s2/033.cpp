@@ -7,3 +7,4 @@ int main () {
     std::vector<std::vector<int>> A(H, std::vector<int>(W, 0));
     
 }
+// #コーナーケースに気を付けよう

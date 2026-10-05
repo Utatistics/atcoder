@@ -27,8 +27,9 @@ int main () {
         // depression angle
         double d0 = std::sqrt((x-X) * (x-X) + (y - Y) * (y - Y));
         double d1 = z;
-        ans = atan2(d1, d0);
+        double ans = atan2(d1, d0);
         
         std::cout << ans;
     }
 }
+// #三角関数を使いこなそう

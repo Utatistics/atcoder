@@ -26,3 +26,4 @@ int main () {
     // presentation
     std::cout << ans << std::endl;
 }
+// #因数分解をしよう
